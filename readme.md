@@ -1,17 +1,17 @@
 # Deploy & Pray 🙏
 
-Are your deploys blessed by the Friday gods? This tool counts your prayers... err, releases to find out!
+Are your deploys blessed by the Friday gods? This tool counts your prayers... ahm, releases to find out!
 
 ## What does it do?
 
-This script analyzes a GitHub repository's release history and calculates your team's "craziness level" based on the percentage of releases done on Fridays. It features:
+This script analyzes a GitHub repository's release history and calculates your "craziness level" based on the percentage of releases done on Fridays. It features:
 
 - 📊 Detailed list of all releases with dates
 - 📅 Special highlighting for Friday releases
 - 🔥 Visual "craziness meter" showing your Friday deployment ratio
-- 😅 Fun feedback on your deployment practices
+- 😅 Feedback on your deployment practices
 
-## Prerequisites
+## Requirements
 
 - zsh
 - GitHub CLI (`gh`) installed and authenticated
@@ -63,7 +63,7 @@ Analyzed facebook/react: 5/41 (12.00%) releases on Fridays! 😏 I also like to 
 
 ## Why?
 
-"It's Friday 4 PM, what could possibly go wrong?" - Developer, moments before disaster
+"It's Friday 4 PM, what could possibly go wrong?" - Developer, moments before a disaster.
 
 This tool was created as a fun way to check if your team might be living too dangerously with Friday deployments. 
 Remember the golden rule: Friday is for bug fixes and documentation, not for major deployments!

@@ -12,7 +12,7 @@ fi
 
 REPO="$1"
 
-# Function to get day of week that works on both macOS and Linux
+# Get day of week. Works on both macOS and Linux
 get_day_of_week() {
     local date_str="$1"
     if [[ "$(uname)" == "Darwin" ]]; then
@@ -24,7 +24,7 @@ get_day_of_week() {
     fi
 }
 
-# Function to get hour (0-23) that works on both macOS and Linux
+# Get hour (0-23). Works on both macOS and Linux
 get_hour() {
     local date_str="$1"
     if [[ "$(uname)" == "Darwin" ]]; then
@@ -36,7 +36,7 @@ get_hour() {
     fi
 }
 
-# Function to assess time-based risk level
+# Assess time-based risk level
 get_time_risk() {
     local hour=$1
     if [ $hour -ge 16 ]; then
@@ -50,7 +50,7 @@ get_time_risk() {
     fi
 }
 
-# Function to create a progress bar
+# Create a progress bar
 create_progress_bar() {
     local percent=$1
     local width=50
@@ -72,12 +72,15 @@ danger_zone_releases=0
 gh release list -R "$REPO" --limit 1000 --json tagName,publishedAt,name | \
     jq -r '.[] | [.tagName, .publishedAt, .name] | @tsv' | \
     while IFS=$'\t' read -r tag date name; do
+        
         # Get day of week and hour
         day_of_week=$(get_day_of_week "$date")
         hour=$(get_hour "$date")
         
         # Increment counters
+        
         ((total_releases++))
+        
         if [ "$day_of_week" -eq 5 ]; then
             ((friday_releases++))
             risk_level=$(get_time_risk $hour)
@@ -93,17 +96,21 @@ done
 echo "----------------------------------------"
 echo "Statistics:"
 echo "Total releases: $total_releases"
+
 if [ "$total_releases" -gt 0 ]; then
     if command -v bc >/dev/null 2>&1; then
         # Calculate all percentages
         friday_ratio=$(echo "scale=2; $friday_releases / $total_releases" | bc)
         percentage=$(echo "scale=2; $friday_ratio * 100" | bc)
+        
         danger_percentage=0
         total_danger_percentage=0
+        
         if [ "$friday_releases" -gt 0 ]; then
             danger_percentage=$(echo "scale=2; $danger_zone_releases / $friday_releases * 100" | bc)
             total_danger_percentage=$(echo "scale=2; $danger_zone_releases / $total_releases * 100" | bc)
         fi
+
     else
         friday_ratio=$(( friday_releases * 100 / total_releases ))
         percentage=$friday_ratio
